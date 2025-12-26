@@ -3,11 +3,11 @@
 import AppWindow from "./AppWindow";
 import { useWindowStore } from "@/shared/state/windowStore";
 
-import About from "@/components/desktop/pages/About"
-import Skills from "@/components/desktop/pages/Skills"
-import Projects from "@/components/desktop/pages/Projects"
-import Experience from "@/components/desktop/pages/Experience"
-import Contact from "@/components/desktop/pages/Contact"
+import About from "./pages/About"
+import Skills from "./pages/Skills"
+import Projects from "./pages/Projects"
+import Experience from "./pages/Experience"
+import Contact from "./pages/Contact"
 
 
 export default function WindowManager() {

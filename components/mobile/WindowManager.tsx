@@ -3,12 +3,12 @@
 import AppWindow from "./AppWindow";
 import { useAppStore } from "@/shared/state/appStore";
 
-import Start from "@/components/mobile/pages/Start"
-import About from "@/components/mobile/pages/About"
-import Skills from "@/components/mobile/pages/Skills"
-import Projects from "@/components/mobile/pages/Projects"
-import Experience from "@/components/mobile/pages/Experience"
-import Contact from "@/components/mobile/pages/Contact"
+import Start from "./pages/Start"
+import About from "./pages/About"
+import Skills from "./pages/Skills"
+import Projects from "./pages/Projects"
+import Experience from "./pages/Experience"
+import Contact from "./pages/Contact"
 
 
 export default function WindowManager() {
