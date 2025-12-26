@@ -30,7 +30,7 @@ export default function DesktopNavbar() {
         className="
           fixed bottom-1 left-1/2 -translate-x-1/2
           h-16 px-3
-          rounded-[1rem]
+          rounded-2xl
           bg-white/20 backdrop-blur-2xl
           border border-white/25
           shadow-[0_20px_50px_rgba(0,0,0,0.35)]

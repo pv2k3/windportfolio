@@ -1,11 +1,15 @@
 import Navbar from "@/components/mobile/MobileNavbar"
+import WindowManager  from "@/components/mobile/WindowManager"
 
 function page() {
   return (
-    <>
+    <div className="w-screen max-h-screen overflow-hidden">
       <Navbar />
-      <div>mobile</div>
-    </>
+      <WindowManager />
+      
+      {/* Optional background */}
+      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-slate-900 to-slate-800" />
+    </div>
   )
 }
 

@@ -1,16 +1,16 @@
 "use client";
 
-import DesktopNavbar from "@/components/desktop/DesktopNavbar";
+import Navbar from "@/components/desktop/DesktopNavbar";
 import WindowManager from "@/components/desktop/WindowManager";
 
 export default function Page() {
   return (
-    <>
-      <DesktopNavbar />
+    <div className="w-screen max-h-screen overflow-hidden">
+      <Navbar />
       <WindowManager />
 
       {/* Optional background */}
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-slate-900 to-slate-800" />
-    </>
+    </div>
   );
 }

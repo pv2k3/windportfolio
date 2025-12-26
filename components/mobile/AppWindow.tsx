@@ -2,7 +2,7 @@
 
 import { Rnd } from "react-rnd";
 import { X, Minus, Square } from "lucide-react";
-import { useWindowStore } from "@/shared/state/windowStore";
+import { useAppStore } from "@/shared/state/appStore";
 
 type AppWindowProps = {
   id: string;
@@ -12,41 +12,41 @@ type AppWindowProps = {
 
 export default function AppWindow({ id, title, children }: AppWindowProps) {
   const {
-    windows,
+    apps,
     setPosition,
     setSize,
     setActive,
     toggleMaximize,
-    closeWindow,
-    minimizeWindow,
-  } = useWindowStore();
+    closeApp,
+    minimizeApp,
+  } = useAppStore();
 
-  const win = windows.find((w) => w.id === id);
+  const app = apps.find((a) => a.id === id);
 
   // 🔒 Safety guards
-  if (!win || !win.isOpened || win.isMinimized) return null;
+  if (!app || !app.isOpened || app.isMinimized) return null;
 
   return (
     <Rnd
-      size={win.size}
-      position={win.position}
-      minWidth={400}
-      minHeight={320}
+      size={app.size}
+      position={app.position}
+      minWidth={200}
+      minHeight={120}
       bounds="#parent"
-      disableDragging={win.isMaximized}
-      enableResizing={!win.isMaximized}
+      disableDragging={true}
+      enableResizing={false}
       dragHandleClassName="window-titlebar"
-      style={{ zIndex: win.zIndex }}
-      onMouseDown={() => setActive(win.id)}
+      style={{ zIndex: app.zIndex + 100}}
+      onMouseDown={() => setActive(app.id)}
       onDragStop={(_, d) =>
-        setPosition(win.id, { x: d.x, y: d.y })
+        setPosition(app.id, { x: d.x, y: d.y })
       }
       onResizeStop={(_, __, ref, ___, pos) => {
-        setSize(win.id, {
+        setSize(app.id, {
           width: ref.offsetWidth,
           height: ref.offsetHeight,
         });
-        setPosition(win.id, pos);
+        setPosition(app.id, pos);
       }}
     >
       <div
@@ -78,24 +78,24 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
 
           <div className="flex gap-2">
             {/* Minimize */}
-            <button
-              onClick={() => minimizeWindow(win.id)}
+            {/* <button
+              onClick={() => minimizeApp(app.id)}
               className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
             >
               <Minus size={16} />
-            </button>
+            </button> */}
 
             {/* Maximize / Restore */}
-            <button
-              onClick={() => toggleMaximize(win.id)}
+            {/* <button
+              onClick={() => toggleMaximize(app.id)}
               className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
             >
               <Square size={14} />
-            </button>
+            </button> */}
 
             {/* Close */}
             <button
-              onClick={() => closeWindow(win.id)}
+              onClick={() => closeApp(app.id)}
               className="w-8 h-8 rounded-md hover:bg-red-500 hover:text-white flex items-center justify-center"
             >
               <X size={16} />
