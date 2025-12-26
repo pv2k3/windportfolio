@@ -15,7 +15,8 @@ export default function WindowManager() {
             key={app.id}
             id={app.id}
             title={app.type.toUpperCase()}
-          >
+            >
+            {app.type === "start" && <div>Start Content</div>}
             {app.type === "about" && <div>About Content</div>}
             {app.type === "skills" && <div>Skills Content</div>}
             {app.type === "projects" && <div>Projects Content</div>}

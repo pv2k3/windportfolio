@@ -11,21 +11,13 @@ import {
 } from "lucide-react";
 
 import DockButton from "./DockButton";
-import StartMenu from "./StartMenu";
 import { useAppStore } from "@/shared/state/appStore";
 
 export default function DesktopNavbar() {
-  const [startOpen, setStartOpen] = useState(false);
   const openApp = useAppStore((s) => s.openApp);
 
   return (
     <>
-      {/* Start Menu */}
-      <StartMenu
-        open={startOpen}
-        onClose={() => setStartOpen(false)}
-      />
-
       <nav
         className="
           fixed bottom-16 left-1/2 -translate-x-1/2
@@ -41,9 +33,9 @@ export default function DesktopNavbar() {
         {/* TOP ROW */}
         <div className="flex gap-5">
           <DockButton
-            label="Start"
+            label="About"
             icon={LayoutGrid}
-            onClick={() => setStartOpen((v) => !v)}
+            onClick={() => openApp("start")}
           />
 
           <DockButton

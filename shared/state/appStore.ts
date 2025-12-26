@@ -5,7 +5,8 @@ export type AppType =
   | "skills"
   | "projects"
   | "experience"
-  | "contact";
+  | "contact"
+  | "start";
 
 type Position = {
   x: number;

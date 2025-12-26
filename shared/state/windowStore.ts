@@ -5,7 +5,8 @@ export type WindowType =
   | "skills"
   | "projects"
   | "experience"
-  | "contact";
+  | "contact"
+  | "start";
 
 type Position = {
   x: number;
@@ -58,26 +59,42 @@ export const useWindowStore = create<WindowStore>((set) => ({
 
   /* ===================== OPEN ===================== */
   openWindow: (type) =>
-    set((state) => {
-      const maxZ = Math.max(0, ...state.windows.map(w => w.zIndex));
+  set((state) => {
+    const existing = state.windows.find(
+      (w) => w.type === type && w.isOpened && !w.isMinimized
+    );
 
+    const maxZ = Math.max(0, ...state.windows.map(w => w.zIndex));
+
+    // 👉 If already open → just activate it
+    if (existing) {
       return {
-        windows: [
-          ...state.windows.map(w => ({ ...w, isActive: false })),
-          {
-            id: crypto.randomUUID(),
-            type,
-            position: { x: 120, y: 80 },
-            size: { width: 520, height: 420 },
-            isOpened: true,
-            isActive: true,
-            isMaximized: false,
-            isMinimized: false,
-            zIndex: maxZ + 1,
-          },
-        ],
+        windows: state.windows.map(w =>
+          w.id === existing.id
+            ? { ...w, isActive: true, zIndex: maxZ + 1 }
+            : { ...w, isActive: false }
+        ),
       };
-    }),
+    }
+
+    // 👉 Else create new window
+    return {
+      windows: [
+        ...state.windows.map(w => ({ ...w, isActive: false })),
+        {
+          id: crypto.randomUUID(),
+          type,
+          position: { x: 120, y: 80 },
+          size: { width: 520, height: 420 },
+          isOpened: true,
+          isActive: true,
+          isMaximized: false,
+          isMinimized: false,
+          zIndex: maxZ + 1,
+        },
+      ],
+    };
+  }),
 
   /* ===================== CLOSE ===================== */
   closeWindow: (id) =>
