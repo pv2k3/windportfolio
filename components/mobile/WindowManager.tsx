@@ -3,6 +3,14 @@
 import AppWindow from "./AppWindow";
 import { useAppStore } from "@/shared/state/appStore";
 
+import Start from "@/components/mobile/pages/Start"
+import About from "@/components/mobile/pages/About"
+import Skills from "@/components/mobile/pages/Skills"
+import Projects from "@/components/mobile/pages/Projects"
+import Experience from "@/components/mobile/pages/Experience"
+import Contact from "@/components/mobile/pages/Contact"
+
+
 export default function WindowManager() {
   const { apps } = useAppStore();
 
@@ -16,12 +24,12 @@ export default function WindowManager() {
             id={app.id}
             title={app.type.toUpperCase()}
             >
-            {app.type === "start" && <div>Start Content</div>}
-            {app.type === "about" && <div>About Content</div>}
-            {app.type === "skills" && <div>Skills Content</div>}
-            {app.type === "projects" && <div>Projects Content</div>}
-            {app.type === "experience" && <div>Experience Content</div>}
-            {app.type === "contact" && <div>Contact Content</div>}
+            {app.type === "start" && <Start/>}
+            {app.type === "about" && <About/>}
+            {app.type === "skills" && <Skills/>}
+            {app.type === "projects" && <Projects/>}
+            {app.type === "experience" && <Experience/>}
+            {app.type === "contact" && <Contact/>}
           </AppWindow>
         ))}
     </>
