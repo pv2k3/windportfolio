@@ -1,8 +1,9 @@
 "use client";
 
 import { Rnd } from "react-rnd";
-import { X, Minus, Square } from "lucide-react";
+import { X } from "lucide-react";
 import { useAppStore } from "@/shared/state/appStore";
+import { useEffect, useState } from "react";
 
 type AppWindowProps = {
   id: string;
@@ -16,15 +17,33 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
     setPosition,
     setSize,
     setActive,
-    toggleMaximize,
     closeApp,
-    minimizeApp,
   } = useAppStore();
 
   const app = apps.find((a) => a.id === id);
 
-  // 🔒 Safety guards
-  if (!app || !app.isOpened || app.isMinimized) return null;
+  const [shouldRender, setShouldRender] = useState(false);
+  const [animationState, setAnimationState] =
+    useState<"opening" | "closing">("opening");
+
+  /* ===================== MOUNT / UNMOUNT ===================== */
+  useEffect(() => {
+    if (app?.isOpened && !app.isMinimized) {
+      setShouldRender(true);
+      setAnimationState("opening");
+    }
+  }, [app?.isOpened, app?.isMinimized]);
+
+  const handleClose = () => {
+    setAnimationState("closing");
+
+    setTimeout(() => {
+      closeApp(id);
+      setShouldRender(false);
+    }, 500); // must match animation duration
+  };
+
+  if (!shouldRender || !app) return null;
 
   return (
     <Rnd
@@ -33,10 +52,10 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
       minWidth={200}
       minHeight={120}
       bounds="#parent"
-      disableDragging={true}
+      disableDragging
       enableResizing={false}
       dragHandleClassName="window-titlebar"
-      style={{ zIndex: app.zIndex + 100}}
+      style={{ zIndex: app.zIndex + 100 }}
       onMouseDown={() => setActive(app.id)}
       onDragStop={(_, d) =>
         setPosition(app.id, { x: d.x, y: d.y })
@@ -50,7 +69,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
       }}
     >
       <div
-        className="
+        className={`
           h-full w-full
           rounded-2xl
           bg-white/25 backdrop-blur-2xl
@@ -58,7 +77,9 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
           shadow-[0_30px_80px_rgba(0,0,0,0.45)]
           flex flex-col
           overflow-hidden
-        "
+          ${animationState === "opening" ? "animate-window-open" : ""}
+          ${animationState === "closing" ? "animate-window-close" : ""}
+        `}
       >
         {/* ================= TITLE BAR ================= */}
         <div
@@ -76,31 +97,12 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
             {title}
           </span>
 
-          <div className="flex gap-2">
-            {/* Minimize */}
-            {/* <button
-              onClick={() => minimizeApp(app.id)}
-              className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
-            >
-              <Minus size={16} />
-            </button> */}
-
-            {/* Maximize / Restore */}
-            {/* <button
-              onClick={() => toggleMaximize(app.id)}
-              className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
-            >
-              <Square size={14} />
-            </button> */}
-
-            {/* Close */}
-            <button
-              onClick={() => closeApp(app.id)}
-              className="w-8 h-8 rounded-md hover:bg-red-500 hover:text-white flex items-center justify-center"
-            >
-              <X size={16} />
-            </button>
-          </div>
+          <button
+            onClick={handleClose}
+            className="w-8 h-8 rounded-md hover:bg-red-500 hover:text-white flex items-center justify-center"
+          >
+            <X size={16} />
+          </button>
         </div>
 
         {/* ================= CONTENT ================= */}

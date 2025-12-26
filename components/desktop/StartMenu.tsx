@@ -37,7 +37,10 @@ export default function StartMenu({ open, onClose }: StartMenuProps) {
       {/* Start Menu */}
       <div
         className={`
-          fixed bottom-32 left-1/2
+          fixed bottom-32 
+          left-1/2
+          -translate-x-1/2
+          
           md:w-[65dvw]
           md:h-[70dvh]
 
