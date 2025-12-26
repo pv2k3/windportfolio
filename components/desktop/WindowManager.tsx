@@ -1,7 +1,7 @@
 "use client";
 
 import AppWindow from "./AppWindow";
-import { useWindowStore } from "@/app/shared/state/windowStore";
+import { useWindowStore } from "@/shared/state/windowStore";
 
 export default function WindowManager() {
   const { windows, closeWindow } = useWindowStore();

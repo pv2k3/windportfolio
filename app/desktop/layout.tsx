@@ -1,6 +1,6 @@
 "use client";
 
-import DesktopNavbar from "@/app/shared/components/desktop/DesktopNavbar";
+import DesktopNavbar from "@/components/desktop/DesktopNavbar";
 
 export default function DesktopLayout({
   children,

@@ -12,7 +12,7 @@ import {
 
 import DockButton from "./DockButton";
 import StartMenu from "./StartMenu";
-import { useWindowStore } from "@/app/shared/state/windowStore";
+import { useWindowStore } from "@/shared/state/windowStore";
 
 export default function DesktopNavbar() {
   const [startOpen, setStartOpen] = useState(false);

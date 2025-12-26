@@ -1,4 +1,4 @@
-import Navbar from "@/app/shared/components/mobile/MobileNavbar"
+import Navbar from "@/components/mobile/MobileNavbar"
 
 function page() {
   return (
