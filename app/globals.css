@@ -132,11 +132,11 @@ body {
 }
 
 .animate-start-open {
-  animation: start-open 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: start-open 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   transform-origin: center bottom;
 }
 
 .animate-start-close {
-  animation: start-close 0.7s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+  animation: start-close 0.5s cubic-bezier(0.5, 0, 0.75, 0) forwards;
   transform-origin: center bottom;
 }

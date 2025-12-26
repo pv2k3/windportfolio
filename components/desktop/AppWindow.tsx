@@ -1,68 +1,53 @@
 "use client";
 
-import { useState } from "react";
 import { Rnd } from "react-rnd";
 import { X, Minus, Square } from "lucide-react";
+import { useWindowStore } from "@/shared/state/windowStore";
 
 type AppWindowProps = {
+  id: string;
   title: string;
   children: React.ReactNode;
-  onClose?: () => void;
 };
 
-export default function AppWindow({
-  title,
-  children,
-  onClose,
-}: AppWindowProps) {
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [isMaximized, setIsMaximized] = useState(false);
+export default function AppWindow({ id, title, children }: AppWindowProps) {
+  const {
+    windows,
+    setPosition,
+    setSize,
+    setActive,
+    toggleMaximize,
+    closeWindow,
+    minimizeWindow,
+  } = useWindowStore();
 
-  const [size, setSize] = useState({
-    width: 520,
-    height: 420,
-  });
+  const win = windows.find((w) => w.id === id);
 
-  const [position, setPosition] = useState({
-    x: 100,
-    y: 80,
-  });
-
-  const handleMaximize = () => {
-    if (!isMaximized) {
-      setPosition({ x: 0, y: 0 });
-      setSize({
-        width: window.innerWidth,
-        height: window.innerHeight - 80,
-      });
-    } else {
-      setSize({ width: 520, height: 420 });
-      setPosition({ x: 100, y: 80 });
-    }
-    setIsMaximized(!isMaximized);
-  };
-
-  if (isMinimized) return null;
+  // 🔒 Safety guards
+  if (!win || !win.isOpened || win.isMinimized) return null;
 
   return (
     <Rnd
-      size={size}
-      position={position}
-      minWidth={320}
-      minHeight={240}
+      size={win.size}
+      position={win.position}
+      minWidth={400}
+      minHeight={320}
       bounds="window"
+      disableDragging={win.isMaximized}
+      enableResizing={!win.isMaximized}
       dragHandleClassName="window-titlebar"
-      onDragStop={(e, d) => {
-        setPosition({ x: d.x, y: d.y });
-      }}
-      onResizeStop={(e, direction, ref, delta, pos) => {
-        setSize({
+      style={{ zIndex: win.zIndex }}
+      onMouseDown={() => setActive(win.id)}
+      onDragStop={(_, d) =>
+        setPosition(win.id, { x: d.x, y: d.y })
+      }
+      onResizeStop={(_, __, ref, ___, pos) => {
+        setSize(win.id, {
           width: ref.offsetWidth,
           height: ref.offsetHeight,
         });
-        setPosition(pos);
+        setPosition(win.id, pos);
       }}
-      className="z-40"
     >
       <div
         className="
@@ -75,7 +60,7 @@ export default function AppWindow({
           overflow-hidden
         "
       >
-        {/* Title Bar */}
+        {/* ================= TITLE BAR ================= */}
         <div
           className="
             window-titlebar
@@ -92,22 +77,25 @@ export default function AppWindow({
           </span>
 
           <div className="flex gap-2">
+            {/* Minimize */}
             <button
-              onClick={() => setIsMinimized(true)}
+              onClick={() => minimizeWindow(win.id)}
               className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
             >
               <Minus size={16} />
             </button>
 
+            {/* Maximize / Restore */}
             <button
-              onClick={handleMaximize}
+              onClick={() => toggleMaximize(win.id)}
               className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
             >
               <Square size={14} />
             </button>
 
+            {/* Close */}
             <button
-              onClick={onClose}
+              onClick={() => closeWindow(win.id)}
               className="w-8 h-8 rounded-md hover:bg-red-500 hover:text-white flex items-center justify-center"
             >
               <X size={16} />
@@ -115,10 +103,9 @@ export default function AppWindow({
           </div>
         </div>
 
-        {/* Window Content */}
+        {/* ================= CONTENT ================= */}
         <div className="flex-1 p-4 overflow-auto">
           {children}
-          child
         </div>
       </div>
     </Rnd>
