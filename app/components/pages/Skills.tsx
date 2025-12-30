@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Code, FileCode, Database, Server, Cloud,
@@ -63,7 +65,7 @@ const skills = [
   { name: "HW–SW Integration", icon: Cpu },
 ];
 
-function Skills() {
+export default function Skills() {
   return (
     <div className="flex flex-col overflow-hidden">
       <h1 className="text-[clamp(1.5rem,2.5vw,1.875rem)] text-center mb-3 font-bold">
@@ -71,21 +73,25 @@ function Skills() {
       </h1>
 
       <div className="flex-1 overflow-y-auto glass-scroll px-6 py-4">
-        <div className="flex flex-wrap gap-6 justify-center">
+        <div className="flex flex-wrap justify-center gap-4 max-w-7xl mx-auto">
           {skills.map(({ name, icon: Icon }) => (
             <div
               key={name}
               className="
-                w-24 h-24
+                w-[calc(33.333%-0.67rem)]
+                max-w-[120px]
+                aspect-square
                 flex flex-col items-center justify-center gap-2
                 bg-slate-800/60 backdrop-blur
                 border border-slate-700 rounded-xl
                 shadow-md cursor-pointer
-                hover:bg-slate-700/70 transition
+                hover:bg-slate-700/70 hover:scale-105 hover:shadow-lg
+                transition-all duration-200
+                p-4
               "
             >
-              <Icon className="w-10 h-10 text-blue-400" />
-              <span className="text-sm text-slate-200 text-center leading-tight">
+              <Icon className="w-10 h-10 text-blue-400 flex-shrink-0" />
+              <span className="text-xs text-slate-200 text-center leading-tight font-medium">
                 {name}
               </span>
             </div>
@@ -95,5 +101,3 @@ function Skills() {
     </div>
   );
 }
-
-export default Skills;
