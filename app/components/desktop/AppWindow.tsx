@@ -75,9 +75,9 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
         className={`
           h-full w-full
           rounded-2xl
-          bg-white/25 backdrop-blur-2xl
-          border border-white/30
-          shadow-[0_30px_80px_rgba(0,0,0,0.45)]
+          bg-white/30 backdrop-blur-xl
+          border border-white/10
+          shadow-[0_30px_80px_rgba(0,0,0,0.15)]
           flex flex-col
           overflow-hidden
           ${animationState === "opening" ? "animate-start-open" : ""}
@@ -88,9 +88,9 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
         <div
           className="
             window-titlebar
-            h-12 px-4
+            h-10 px-4
             flex items-center justify-between
-            bg-white/30
+            bg-white/15
             backdrop-blur-xl
             cursor-move
             select-none
@@ -128,7 +128,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
         </div>
 
         {/* ================= CONTENT ================= */}
-        <div className="flex-1 p-4 overflow-auto">
+        <div className="flex-1 p-4 overflow-auto custom-scroll">
           {children}
         </div>
       </div>

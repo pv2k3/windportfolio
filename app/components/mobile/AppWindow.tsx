@@ -106,7 +106,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
         </div>
 
         {/* ================= CONTENT ================= */}
-        <div className="flex-1 p-4 overflow-auto">
+        <div className="flex-1 p-4 overflow-auto custom-scroll">
           {children}
         </div>
       </div>
