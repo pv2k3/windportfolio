@@ -101,7 +101,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
             onClick={handleClose}
             className="w-8 h-8 rounded-md hover:bg-red-500 hover:text-white flex items-center justify-center"
           >
-            <X size={16} />
+            <X className="text-black" size={16} />
           </button>
         </div>
 

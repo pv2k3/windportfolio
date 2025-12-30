@@ -1,29 +1,55 @@
-import React, { useState } from "react";
-import { Mail, Github, Linkedin, Clock, Send } from "lucide-react";
+"use client";
 
-function Contact() {
-  const [formData, setFormData] = useState({
+import React, { useState } from "react";
+import {
+  Mail,
+  Github,
+  Linkedin,
+  Clock,
+  Send,
+} from "lucide-react";
+
+type ContactFormData = {
+  name: string;
+  email: string;
+  message: string;
+};
+
+export default function Contact() {
+  const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = () => {
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
+  const handleSubmit = (): void => {
     setSubmitted(true);
+
     setTimeout(() => {
       setSubmitted(false);
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
     }, 3000);
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
     <div className="flex flex-col overflow-hidden">
-      {/* Header */}
       <h1 className="text-[clamp(1.5rem,2.5vw,1.875rem)] text-center mb-2 font-bold">
         Contact
       </h1>
@@ -32,14 +58,9 @@ function Contact() {
         Have a project in mind or just want to connect?
       </p>
 
-      {/* Scroll Area */}
       <div className="flex-1 overflow-y-auto glass-scroll px-4 pb-6">
         <div className="flex flex-col gap-6 items-center">
-          
-          {/* TOP SECTION: max 2, min 1 */}
           <div className="flex flex-wrap gap-6 justify-center w-full">
-            
-            {/* Direct Contact */}
             <div className="flex-1 min-w-[260px] max-w-md bg-slate-800 rounded-xl p-5 shadow-xl border border-slate-700 flex flex-col gap-4">
               <h2 className="text-[clamp(1.05rem,2vw,1.25rem)] font-semibold">
                 Direct Contact
@@ -76,7 +97,6 @@ function Contact() {
               </a>
             </div>
 
-            {/* Availability */}
             <div className="flex-1 min-w-[260px] max-w-md bg-slate-800 rounded-xl p-5 shadow-xl border border-slate-700 flex flex-col gap-4">
               <h2 className="text-[clamp(1.05rem,2vw,1.25rem)] font-semibold flex items-center gap-2">
                 <Clock className="w-5 h-5 text-slate-300" />
@@ -112,7 +132,6 @@ function Contact() {
             </div>
           </div>
 
-          {/* CONTACT FORM (FULL WIDTH, CENTERED) */}
           <div className="w-full max-w-4xl bg-slate-800 rounded-xl p-6 shadow-xl border border-slate-700">
             <h2 className="text-[clamp(1.1rem,2vw,1.3rem)] font-semibold flex items-center gap-2 mb-4">
               <Send className="w-5 h-5 text-slate-300" />
@@ -140,7 +159,7 @@ function Contact() {
 
               <textarea
                 name="message"
-                rows="4"
+                rows={4}
                 placeholder="Message"
                 value={formData.message}
                 onChange={handleChange}
@@ -161,11 +180,8 @@ function Contact() {
               )}
             </div>
           </div>
-
         </div>
       </div>
     </div>
   );
 }
-
-export default Contact;
