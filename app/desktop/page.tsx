@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "@/components/desktop/DesktopNavbar";
-import WindowManager from "@/components/desktop/WindowManager";
+import Navbar from "@/app/components/desktop/DesktopNavbar";
+import WindowManager from "@/app/components/desktop/WindowManager";
 
 export default function Page() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import AppWindow from "./AppWindow";
-import { useAppStore } from "@/shared/state/appStore";
+import { useAppStore } from "@/app/shared/state/appStore";
 
 import Start from "./pages/Start"
 import About from "./pages/About"

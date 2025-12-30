@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 import DockButton from "./DockButton";
-import { useAppStore } from "@/shared/state/appStore";
+import { useAppStore } from "@/app/shared/state/appStore";
 
 export default function DesktopNavbar() {
   const openApp = useAppStore((s) => s.openApp);

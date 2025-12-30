@@ -1,5 +1,5 @@
-import Navbar from "@/components/mobile/MobileNavbar"
-import WindowManager  from "@/components/mobile/WindowManager"
+import Navbar from "@/app/components/mobile/MobileNavbar"
+import WindowManager  from "@/app/components/mobile/WindowManager"
 
 function page() {
   return (

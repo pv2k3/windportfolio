@@ -1,6 +1,6 @@
 "use client";
 
-import MobileNavbar from "@/components/mobile/MobileNavbar";
+import MobileNavbar from "@/app/components/mobile/MobileNavbar";
 
 export default function MobileLayout({
   children,
