@@ -12,7 +12,7 @@ import Contact from "@/app/components/pages/Contact"
 
 
 export default function WindowManager() {
-  const { apps } = useAppStore();
+  const { apps, closeApp } = useAppStore();
 
   return (
     <>
@@ -24,7 +24,9 @@ export default function WindowManager() {
             id={app.id}
             title={app.type.toUpperCase()}
             >
-            {app.type === "start" && <Start/>}
+            {app.type === "start" && (
+              <Start onClose={() => closeApp(app.id)} />
+            )}
             {app.type === "about" && <About/>}
             {app.type === "skills" && <Skills/>}
             {app.type === "projects" && <Projects/>}
