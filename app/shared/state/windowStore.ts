@@ -8,15 +8,8 @@ export type WindowType =
   | "contact"
   | "start";
 
-type Position = {
-  x: number;
-  y: number;
-};
-
-type Size = {
-  width: number;
-  height: number;
-};
+type Position = { x: number; y: number };
+type Size = { width: number; height: number };
 
 type WindowInstance = {
   id: string;
@@ -28,10 +21,10 @@ type WindowInstance = {
   restorePosition?: Position;
   restoreSize?: Size;
 
-  isOpened: boolean;
-  isActive: boolean;
+  isOpened: boolean;     // exists in system (dock)
+  isActive: boolean;     // focused window
+  isMinimized: boolean;  // not visible
   isMaximized: boolean;
-  isMinimized: boolean;
 
   zIndex: number;
 };
@@ -49,7 +42,6 @@ type WindowStore = {
   setSize: (id: string, size: Size) => void;
 
   toggleMaximize: (id: string) => void;
-
   minimizeWindow: (id: string) => void;
   restoreWindow: (id: string) => void;
 };
@@ -57,59 +49,55 @@ type WindowStore = {
 export const useWindowStore = create<WindowStore>((set) => ({
   windows: [],
 
-  /* ===================== OPEN ===================== */
+  /* ===================== OPEN / RESTORE ===================== */
   openWindow: (type) =>
-  set((state) => {
-    const existing = state.windows.find(
-      (w) => w.type === type && w.isOpened && !w.isMinimized
-    );
+    set((state) => {
+      const maxZ = Math.max(0, ...state.windows.map(w => w.zIndex));
 
-    const maxZ = Math.max(0, ...state.windows.map(w => w.zIndex));
+      const existing = state.windows.find(w => w.type === type);
 
-    // 👉 If already open → just activate it
-    if (existing) {
-      return {
-        windows: state.windows.map(w =>
-          w.id === existing.id
-            ? { ...w, isActive: true, zIndex: maxZ + 1 }
-            : { ...w, isActive: false }
-        ),
+      // 🔁 Restore or activate existing window
+      if (existing) {
+        return {
+          windows: state.windows.map(w =>
+            w.id === existing.id
+              ? {
+                  ...w,
+                  isOpened: true,
+                  isMinimized: false,
+                  isActive: true,
+                  zIndex: maxZ + 1,
+                }
+              : { ...w, isActive: false }
+          ),
+        };
+      }
+
+      // ➕ Create new window
+      const newWindow: WindowInstance = {
+        id: crypto.randomUUID(),
+        type,
+        position: { x: 120, y: 80 },
+        size: { width: 520, height: 420 },
+        isOpened: true,
+        isActive: true,
+        isMinimized: false,
+        isMaximized: false,
+        zIndex: maxZ + 1,
       };
-    }
 
-    // 👉 Else create new window
-    return {
-      windows: [
-        ...state.windows.map(w => ({ ...w, isActive: false })),
-        {
-          id: crypto.randomUUID(),
-          type,
-          position: { x: 120, y: 80 },
-          size: { width: 520, height: 420 },
-          isOpened: true,
-          isActive: true,
-          isMaximized: false,
-          isMinimized: false,
-          zIndex: maxZ + 1,
-        },
-      ],
-    };
-  }),
+      return {
+        windows: [
+          ...state.windows.map(w => ({ ...w, isActive: false })),
+          newWindow,
+        ],
+      };
+    }),
 
   /* ===================== CLOSE ===================== */
   closeWindow: (id) =>
     set((state) => ({
-      windows: state.windows.map(w =>
-        w.id === id
-          ? {
-              ...w,
-              isOpened: false,
-              isActive: false,
-              isMinimized: false,
-              isMaximized: false,
-            }
-          : w
-      ),
+      windows: state.windows.filter(w => w.id !== id),
     })),
 
   /* ===================== FOCUS ===================== */
@@ -131,53 +119,54 @@ export const useWindowStore = create<WindowStore>((set) => ({
       windows: state.windows.map(w => ({ ...w, isActive: false })),
     })),
 
-  /* ===================== MOVE / RESIZE ===================== */
+  /* ===================== MOVE ===================== */
   setPosition: (id, position) =>
     set((state) => ({
       windows: state.windows.map(w =>
-        w.id === id && !w.isMaximized
-          ? { ...w, position }
-          : w
+        w.id === id && !w.isMaximized ? { ...w, position } : w
       ),
     })),
 
+  /* ===================== RESIZE ===================== */
   setSize: (id, size) =>
     set((state) => ({
       windows: state.windows.map(w =>
-        w.id === id && !w.isMaximized
-          ? { ...w, size }
-          : w
+        w.id === id && !w.isMaximized ? { ...w, size } : w
       ),
     })),
 
   /* ===================== MAXIMIZE ===================== */
   toggleMaximize: (id) =>
-    set((state) => ({
-      windows: state.windows.map(w => {
-        if (w.id !== id) return w;
+    set((state) => {
+      const screenWidth =
+        typeof window !== "undefined" ? window.innerWidth : 1200;
+      const screenHeight =
+        typeof window !== "undefined" ? window.innerHeight - 72 : 800;
 
-        if (!w.isMaximized) {
+      return {
+        windows: state.windows.map(w => {
+          if (w.id !== id) return w;
+
+          if (!w.isMaximized) {
+            return {
+              ...w,
+              restorePosition: w.position,
+              restoreSize: w.size,
+              position: { x: 0, y: 0 },
+              size: { width: screenWidth, height: screenHeight },
+              isMaximized: true,
+            };
+          }
+
           return {
             ...w,
-            restorePosition: w.position,
-            restoreSize: w.size,
-            position: { x: 0, y: 0 },
-            size: {
-              width: window.innerWidth,
-              height: window.innerHeight - 72,
-            },
-            isMaximized: true,
+            position: w.restorePosition ?? w.position,
+            size: w.restoreSize ?? w.size,
+            isMaximized: false,
           };
-        }
-
-        return {
-          ...w,
-          position: w.restorePosition ?? w.position,
-          size: w.restoreSize ?? w.size,
-          isMaximized: false,
-        };
-      }),
-    })),
+        }),
+      };
+    }),
 
   /* ===================== MINIMIZE ===================== */
   minimizeWindow: (id) =>
@@ -189,6 +178,7 @@ export const useWindowStore = create<WindowStore>((set) => ({
       ),
     })),
 
+  /* ===================== RESTORE ===================== */
   restoreWindow: (id) =>
     set((state) => {
       const maxZ = Math.max(0, ...state.windows.map(w => w.zIndex));

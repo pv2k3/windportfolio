@@ -3,7 +3,6 @@
 import { Rnd } from "react-rnd";
 import { X, Minus, Square } from "lucide-react";
 import { useWindowStore } from "@/app/shared/state/windowStore";
-import { useEffect, useState } from "react";
 
 type AppWindowProps = {
   id: string;
@@ -24,29 +23,8 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
 
   const win = windows.find((w) => w.id === id);
 
-  const [shouldRender, setShouldRender] = useState(false);
-  const [animationState, setAnimationState] =
-    useState<"opening" | "closing">("opening");
-
-  /* ===================== MOUNT / UNMOUNT ===================== */
-  useEffect(() => {
-    if (win?.isOpened && !win.isMinimized) {
-      setShouldRender(true);
-      setAnimationState("opening");
-    }
-  }, [win?.isOpened, win?.isMinimized]);
-
-  const handleClose = () => {
-    setAnimationState("closing");
-
-    setTimeout(() => {
-      closeWindow(id);
-      setShouldRender(false);
-    }, 500); // must match animation duration
-  };
-
-  // 🔒 Safety guards
-  if (!shouldRender || !win) return null;
+  // 🔒 Safety
+  if (!win || win.isMinimized || !win.isOpened) return null;
 
   return (
     <Rnd
@@ -72,7 +50,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
       }}
     >
       <div
-        className={`
+        className="
           h-full w-full
           rounded-2xl
           bg-white/30 backdrop-blur-xl
@@ -80,11 +58,9 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
           shadow-[0_30px_80px_rgba(0,0,0,0.15)]
           flex flex-col
           overflow-hidden
-          ${animationState === "opening" ? "animate-start-open" : ""}
-          ${animationState === "closing" ? "animate-start-close" : ""}
-        `}
+        "
       >
-        {/* ================= TITLE BAR ================= */}
+        {/* TITLE BAR */}
         <div
           className="
             window-titlebar
@@ -106,28 +82,28 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
               onClick={() => minimizeWindow(win.id)}
               className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
             >
-              <Minus className="text-black" size={16} />
+              <Minus size={16} />
             </button>
 
-            {/* Maximize / Restore */}
+            {/* Maximize */}
             <button
               onClick={() => toggleMaximize(win.id)}
               className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
             >
-              <Square className="text-black" size={14} />
+              <Square size={14} />
             </button>
 
             {/* Close */}
             <button
-              onClick={handleClose}
+              onClick={() => closeWindow(win.id)}
               className="w-8 h-8 rounded-md hover:bg-red-500 hover:text-white flex items-center justify-center"
             >
-              <X className="text-black" size={16} />
+              <X size={16} />
             </button>
           </div>
         </div>
 
-        {/* ================= CONTENT ================= */}
+        {/* CONTENT */}
         <div className="flex-1 p-4 overflow-auto custom-scroll">
           {children}
         </div>

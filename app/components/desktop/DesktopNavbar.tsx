@@ -13,10 +13,31 @@ import {
 import DockButton from "./DockButton";
 import StartMenu from "./StartMenu";
 import { useWindowStore } from "@/app/shared/state/windowStore";
+import type { WindowType } from "@/app/shared/state/windowStore";
 
 export default function DesktopNavbar() {
   const [startOpen, setStartOpen] = useState(false);
+
   const openWindow = useWindowStore((s) => s.openWindow);
+  const windows = useWindowStore((s) => s.windows);
+
+  /* ===================== HELPERS ===================== */
+
+  const getWindow = (type: WindowType) =>
+    windows.find((w) => w.type === type);
+
+  const isOpened = (type: WindowType) =>
+    !!getWindow(type)?.isOpened;
+
+  const isActive = (type: WindowType) =>
+    !!getWindow(type)?.isActive;
+
+  const isVisible = (type: WindowType) => {
+    const w = getWindow(type);
+    return !!w && w.isOpened && !w.isMinimized;
+  };
+
+  /* ===================== RENDER ===================== */
 
   return (
     <>
@@ -38,19 +59,22 @@ export default function DesktopNavbar() {
           z-50
         "
       >
-        {/* START = MENU */}
+        {/* START */}
         <DockButton
           label="Start"
           href="#"
           icon={LayoutGrid}
+          active={startOpen}
           onClick={() => setStartOpen((v) => !v)}
         />
 
-        {/* APPS = WINDOWS */}
+        {/* WINDOWS */}
         <DockButton
           label="About"
           href="#"
           icon={User}
+          opened={isOpened("about")}
+          active={isActive("about")}
           onClick={() => openWindow("about")}
         />
 
@@ -58,6 +82,8 @@ export default function DesktopNavbar() {
           label="Skills"
           href="#"
           icon={Code}
+          opened={isOpened("skills")}
+          active={isActive("skills")}
           onClick={() => openWindow("skills")}
         />
 
@@ -65,6 +91,8 @@ export default function DesktopNavbar() {
           label="Projects"
           href="#"
           icon={Folder}
+          opened={isOpened("projects")}
+          active={isActive("projects")}
           onClick={() => openWindow("projects")}
         />
 
@@ -72,6 +100,8 @@ export default function DesktopNavbar() {
           label="Experience"
           href="#"
           icon={Briefcase}
+          opened={isOpened("experience")}
+          active={isActive("experience")}
           onClick={() => openWindow("experience")}
         />
 
@@ -79,6 +109,8 @@ export default function DesktopNavbar() {
           label="Contact"
           href="#"
           icon={Mail}
+          opened={isOpened("contact")}
+          active={isActive("contact")}
           onClick={() => openWindow("contact")}
         />
       </nav>
