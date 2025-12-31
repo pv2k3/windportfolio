@@ -10,18 +10,18 @@ import {
   Linkedin,
 } from "lucide-react";
 
-import { useAppStore } from "@/app/shared/state/appStore";
+import { useWindowStore } from "@/app/shared/state/windowStore";
+import type { WindowType } from "@/app/shared/state/windowStore";
 
 type StartProps = {
   onClose: () => void;
 };
 
 export default function Start({ onClose }: StartProps) {
-  const openApp = useAppStore((s) => s.openApp);
+  const openWindow = useWindowStore((s) => s.openWindow);
 
-  const launch = (app: Parameters<typeof openApp>[0]) => {
-    // console.log(app)
-    openApp(app);
+  const launch = (window: WindowType) => {
+    openWindow(window);
     onClose(); // 👈 auto-close Start Menu
   };
 
@@ -50,11 +50,37 @@ export default function Start({ onClose }: StartProps) {
         </p>
 
         <div className="grid grid-cols-3 gap-6">
-          <App icon={<User size={26} />} label="About" onClick={() => launch("about")} />
-          <App icon={<Layers size={26} />} label="Skills" onClick={() => launch("skills")} />
-          {/* <App icon={<Briefcase size={26} />} label="Experience" onClick={() => launch("experience")} />
-          <App icon={<FolderGit2 size={26} />} label="Projects" onClick={() => launch("projects")} /> */}
-          <App icon={<Mail size={26} />} label="Contact" onClick={() => launch("contact")} />
+          <App
+            icon={<User size={26} />}
+            label="About"
+            onClick={() => launch("about")}
+          />
+
+          <App
+            icon={<Layers size={26} />}
+            label="Skills"
+            onClick={() => launch("skills")}
+          />
+
+          {/* Uncomment when needed
+          <App
+            icon={<Briefcase size={26} />}
+            label="Experience"
+            onClick={() => launch("experience")}
+          />
+
+          <App
+            icon={<FolderGit2 size={26} />}
+            label="Projects"
+            onClick={() => launch("projects")}
+          />
+          */}
+
+          <App
+            icon={<Mail size={26} />}
+            label="Contact"
+            onClick={() => launch("contact")}
+          />
         </div>
       </div>
 
@@ -106,6 +132,7 @@ function App({
       >
         <span className="text-cyan-400">{icon}</span>
       </div>
+
       <span className="text-sm text-slate-300">
         {label}
       </span>

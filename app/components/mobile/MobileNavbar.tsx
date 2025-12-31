@@ -33,7 +33,7 @@ export default function DesktopNavbar() {
         {/* TOP ROW */}
         <div className="flex gap-5">
           <DockButton
-            label="About"
+            label="Start"
             icon={LayoutGrid}
             onClick={() => openApp("start")}
           />

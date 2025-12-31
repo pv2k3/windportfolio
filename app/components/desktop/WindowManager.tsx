@@ -3,6 +3,7 @@
 import AppWindow from "./AppWindow";
 import { useWindowStore } from "@/app/shared/state/windowStore";
 
+import Start from "@/app/components/pages/Start"
 import About from "@/app/components/pages/About";
 import Skills from "@/app/components/pages/Skills";
 import Projects from "@/app/components/pages/Projects";
@@ -22,6 +23,7 @@ export default function WindowManager() {
             id={win.id}
             title={win.type.toUpperCase()}
           >
+            {win.type === "start" && <Start/>}
             {win.type === "about" && <About />}
             {win.type === "skills" && <Skills />}
             {win.type === "projects" && <Projects />}
