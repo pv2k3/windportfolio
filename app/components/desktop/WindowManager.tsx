@@ -12,6 +12,7 @@ import Contact from "@/app/components/pages/Contact";
 
 export default function WindowManager() {
   const windows = useWindowStore((s) => s.windows);
+  const closeWindow = useWindowStore((s) => s.closeWindow);
 
   return (
     <>
@@ -23,7 +24,9 @@ export default function WindowManager() {
             id={win.id}
             title={win.type.toUpperCase()}
           >
-            {win.type === "start" && <Start/>}
+            {win.type === "start" && (
+              <Start onClose={() => closeWindow(win.id)} />
+            )}
             {win.type === "about" && <About />}
             {win.type === "skills" && <Skills />}
             {win.type === "projects" && <Projects />}
