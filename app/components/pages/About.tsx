@@ -11,7 +11,7 @@ import {
 
 export default function AboutContent() {
   return (
-    <div className="w-full h-full p-8 overflow-y-auto text-slate-100">
+    <div className="w-full p-8 overflow-y-auto text-slate-100">
       {/* ===== HEADER ===== */}
       <div className="mb-10 text-center">
         <h1 className="text-4xl font-semibold tracking-tight">

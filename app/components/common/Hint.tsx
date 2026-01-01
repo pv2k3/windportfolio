@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MousePointerClick, Info } from "lucide-react";
+import { MousePointerClick, Info, X } from "lucide-react";
 
 export default function StartupHint() {
   const [visible, setVisible] = useState(true);
-
+  const close = () =>{
+    setVisible(false);
+  }
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -34,8 +36,9 @@ export default function StartupHint() {
             </p>
           </div>
 
-          <MousePointerClick
-            size={16}
+          <X
+            onClick={()=>close()}
+            size={24}
             className="text-slate-400 mt-1"
           />
         </div>

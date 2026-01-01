@@ -3,6 +3,7 @@
 import { Rnd } from "react-rnd";
 import { X, Minus, Square } from "lucide-react";
 import { useWindowStore } from "@/app/shared/state/windowStore";
+import { useEffect, useState } from "react";
 
 type AppWindowProps = {
   id: string;
@@ -23,8 +24,28 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
 
   const win = windows.find((w) => w.id === id);
 
-  // 🔒 Safety
-  if (!win || win.isMinimized || !win.isOpened) return null;
+  const [shouldRender, setShouldRender] = useState(false);
+  const [animationState, setAnimationState] =
+    useState<"opening" | "closing">("opening");
+
+  /* ===================== MOUNT / UNMOUNT ===================== */
+  useEffect(() => {
+    if (win?.isOpened && !win.isMinimized) {
+      setShouldRender(true);
+      setAnimationState("opening");
+    }
+  }, [win?.isOpened, win?.isMinimized]);
+
+  const handleClose = () => {
+    setAnimationState("closing");
+
+    setTimeout(() => {
+      closeWindow(id);
+      setShouldRender(false);
+    }, 400); // must match animation duration
+  };
+
+  if (!shouldRender || !win) return null;
 
   return (
     <Rnd
@@ -50,7 +71,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
       }}
     >
       <div
-        className="
+        className={`
           h-full w-full
           rounded-2xl
           bg-white/30 backdrop-blur-xl
@@ -58,9 +79,19 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
           shadow-[0_30px_80px_rgba(0,0,0,0.15)]
           flex flex-col
           overflow-hidden
-        "
+          ${
+            animationState === "opening"
+              ? "animate-window-open"
+              : ""
+          }
+          ${
+            animationState === "closing"
+              ? "animate-window-close"
+              : ""
+          }
+        `}
       >
-        {/* TITLE BAR */}
+        {/* ================= TITLE BAR ================= */}
         <div
           className="
             window-titlebar
@@ -95,7 +126,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
 
             {/* Close */}
             <button
-              onClick={() => closeWindow(win.id)}
+              onClick={handleClose}
               className="w-8 h-8 rounded-md hover:bg-red-500 hover:text-white flex items-center justify-center"
             >
               <X size={16} />
@@ -103,7 +134,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
           </div>
         </div>
 
-        {/* CONTENT */}
+        {/* ================= CONTENT ================= */}
         <div className="flex-1 p-4 overflow-auto custom-scroll">
           {children}
         </div>
