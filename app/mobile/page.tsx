@@ -17,7 +17,7 @@ function Page() {
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800" />
 
       {/* HERO CONTENT (MOBILE) */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 px-6 pointer-events-none">
+      <div className="absolute inset-0 flex flex-col mb-10 items-center justify-center gap-6 px-6 pointer-events-none">
         {/* PROFILE IMAGE */}
         <div
           className="

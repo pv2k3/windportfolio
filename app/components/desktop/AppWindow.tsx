@@ -113,7 +113,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
               onClick={() => minimizeWindow(win.id)}
               className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
             >
-              <Minus size={16} />
+              <Minus className="text-black" size={16} />
             </button>
 
             {/* Maximize */}
@@ -121,7 +121,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
               onClick={() => toggleMaximize(win.id)}
               className="w-8 h-8 rounded-md hover:bg-black/10 flex items-center justify-center"
             >
-              <Square size={14} />
+              <Square className="text-black" size={14} />
             </button>
 
             {/* Close */}
@@ -129,7 +129,7 @@ export default function AppWindow({ id, title, children }: AppWindowProps) {
               onClick={handleClose}
               className="w-8 h-8 rounded-md hover:bg-red-500 hover:text-white flex items-center justify-center"
             >
-              <X size={16} />
+              <X className="text-black" size={16} />
             </button>
           </div>
         </div>

@@ -37,7 +37,7 @@ export default function DockButton({
       `}
     >
       {/* Icon */}
-      <Icon className="w-7 h-7 text-white" />
+      <Icon className="w-7 h-7 text-cyan-400" />
 
       {/* OPEN INDICATOR */}
       {opened && (

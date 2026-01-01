@@ -20,12 +20,9 @@ export default function DesktopNavbar() {
     <>
       <nav
         className="
-          fixed bottom-16 left-1/2 -translate-x-1/2
-          p-3
+          fixed bottom-12 left-1/2 -translate-x-1/2
+          p-1
           rounded-2xl
-          bg-white/20 backdrop-blur-2xl
-          border border-white/25
-          shadow-[0_20px_50px_rgba(0,0,0,0.35)]
           flex flex-col items-center gap-5
           z-50
         "

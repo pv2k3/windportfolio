@@ -20,18 +20,18 @@ export default function DockButton({
         flex flex-col items-center justify-center
         w-18 h-18
         rounded-xl
-        bg-white/70
+        bg-white/20
         text-gray-800
         transition-all duration-300 ease-out
         hover:-translate-y-4
         hover:scale-105
-        hover:bg-white
+        hover:bg-white/30
         hover:shadow-[0_12px_30px_rgba(0,0,0,0.3)]
         active:scale-95
       "
     >
       {/* Icon */}
-      <Icon className="w-7 h-7" />
+      <Icon className="w-7 h-7 text-cyan-400" />
       {/* Hover Label */}
       <span
         className="
