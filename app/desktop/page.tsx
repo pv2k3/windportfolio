@@ -17,7 +17,7 @@ export default function Page() {
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800" />
 
       {/* HERO CONTENT */}
-      <div className="w-10/12 lg:w-8/12 mx-auto h-full flex items-center justify-between">
+      <div className="w-10/12 md:w-9/12 lg:w-7/12 mx-auto h-full flex items-center justify-between">
         {/* LEFT – TEXT */}
         <div className="pointer-events-none">
           <div className="max-w-lg">
