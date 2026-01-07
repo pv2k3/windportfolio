@@ -5,7 +5,7 @@ import { useAppStore } from "@/app/shared/state/appStore";
 
 export default function DesktopNavbar() {
   const openApp = useAppStore((s) => s.openApp);
-  const activeApp = useAppStore((s) => s.activeApp);
+  // const activeApp = useAppStore((s) => s.activeApp);
 
   return (
     <nav
@@ -24,23 +24,23 @@ export default function DesktopNavbar() {
         <DockButton
           label="About"
           imageSrc="/icons/about.png"
-          active={activeApp === "about"}
-          opened={activeApp === "about"}
+          // active={activeApp === "about"}
+          // opened={activeApp === "about"}
           onClick={() => openApp("about")}
         />
 
         <DockButton
           label="Skills"
           imageSrc="/icons/skills.png"
-          active={activeApp === "skills"}
-          opened={activeApp === "skills"}
+          // active={activeApp === "skills"}
+          // opened={activeApp === "skills"}
           onClick={() => openApp("skills")}
         />
         <DockButton
           label="Experience"
           imageSrc="/icons/experience.png"
-          active={activeApp === "experience"}
-          opened={activeApp === "experience"}
+          // active={activeApp === "experience"}
+          // opened={activeApp === "experience"}
           onClick={() => openApp("experience")}
         />
 
@@ -52,8 +52,8 @@ export default function DesktopNavbar() {
         <DockButton
           label="Projects"
           imageSrc="/icons/projects.png"
-          active={activeApp === "projects"}
-          opened={activeApp === "projects"}
+          // active={activeApp === "projects"}
+          // opened={activeApp === "projects"}
           onClick={() => openApp("projects")}
         />
 
@@ -61,16 +61,16 @@ export default function DesktopNavbar() {
         <DockButton
           label="Start"
           imageSrc="/icons/start.png"
-          active={activeApp === "start"}
-          opened={activeApp === "start"}
+          // active={activeApp === "start"}
+          // opened={activeApp === "start"}
           onClick={() => openApp("start")}
         />
 
         <DockButton
           label="Contact"
           imageSrc="/icons/contact.png"
-          active={activeApp === "contact"}
-          opened={activeApp === "contact"}
+          // active={activeApp === "contact"}
+          // opened={activeApp === "contact"}
           onClick={() => openApp("contact")}
         />
       </div>
