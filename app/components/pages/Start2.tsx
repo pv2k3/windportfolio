@@ -91,11 +91,11 @@ export default function Start({ onClose }: StartProps) {
             <Github size={20} />
           </IconLink>
 
-          <IconLink href="https://www.linkedin.com/">
+          <IconLink href="https://www.linkedin.com/in/priyanshu-verma-2k3/">
             <Linkedin size={20} />
           </IconLink>
 
-          <IconLink href="mailto:your@email.com">
+          <IconLink href="mailto:vermapriyanshu001@gmail.com">
             <Mail size={20} />
           </IconLink>
         </div>

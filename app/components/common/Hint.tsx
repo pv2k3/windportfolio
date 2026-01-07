@@ -33,6 +33,7 @@ export default function StartupHint() {
             <p className="mt-1 text-sm text-slate-300 leading-relaxed">
               Click on the desktop icons to open windows.  
               Hover over icons to view more details.
+              On mobile you can long press and drag the profile card
             </p>
           </div>
 

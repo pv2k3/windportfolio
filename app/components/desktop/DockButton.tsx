@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { LucideIcon } from "lucide-react";
 
 type DockButtonProps = {
   label: string;
-  icon: LucideIcon;
+  imageSrc: string;
   href?: string;
   active?: boolean;
   opened?: boolean;
@@ -14,12 +14,16 @@ type DockButtonProps = {
 
 export default function DockButton({
   label,
-  icon: Icon,
+  imageSrc,
   href,
   onClick,
   active = false,
   opened = false,
 }: DockButtonProps) {
+  // ✅ MUST be outside JSX
+  const isStart = label === "Start";
+  const size = isStart ? 32 : 40;
+
   const content = (
     <div
       className={`
@@ -32,14 +36,21 @@ export default function DockButton({
         hover:scale-105
         hover:shadow-[0_12px_30px_rgba(0,0,0,0.3)]
         active:scale-95
-
         ${active ? "bg-white/40 scale-110 shadow-lg" : "bg-white/15"}
       `}
     >
-      {/* Icon */}
-      <Icon className="w-7 h-7 text-cyan-400" />
+      {/* IMAGE ICON */}
+      <Image
+        src={imageSrc}
+        alt={label}
+        width={size}
+        height={size}
+        className="object-contain select-none pointer-events-none"
+        draggable={false}
+        priority
+      />
 
-      {/* OPEN INDICATOR */}
+      {/* OPEN INDICATOR DOT */}
       {opened && (
         <span
           className={`
@@ -50,7 +61,7 @@ export default function DockButton({
         />
       )}
 
-      {/* Hover Label */}
+      {/* HOVER LABEL */}
       <span
         className="
           absolute -bottom-6
@@ -70,23 +81,21 @@ export default function DockButton({
     </div>
   );
 
-  // Button behavior (window actions)
   if (onClick) {
     return (
       <button
         onClick={onClick}
-        className="outline-none focus:outline-none"
         aria-label={label}
+        className="outline-none focus:outline-none"
       >
         {content}
       </button>
     );
   }
 
-  // Link behavior (navigation)
   if (href) {
     return (
-      <Link href={href} className="outline-none" aria-label={label}>
+      <Link href={href} aria-label={label} className="outline-none">
         {content}
       </Link>
     );

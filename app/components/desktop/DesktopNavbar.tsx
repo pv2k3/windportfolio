@@ -1,14 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import {
-  User,
-  Code,
-  Folder,
-  Briefcase,
-  Mail,
-  LayoutGrid,
-} from "lucide-react";
 
 import DockButton from "./DockButton";
 import StartMenu from "./StartMenu";
@@ -32,16 +24,11 @@ export default function DesktopNavbar() {
   const isActive = (type: WindowType) =>
     !!getWindow(type)?.isActive;
 
-  const isVisible = (type: WindowType) => {
-    const w = getWindow(type);
-    return !!w && w.isOpened && !w.isMinimized;
-  };
-
   /* ===================== RENDER ===================== */
 
   return (
     <>
-      {/* Start Menu */}
+      {/* START MENU */}
       <StartMenu
         open={startOpen}
         onClose={() => setStartOpen(false)}
@@ -62,8 +49,7 @@ export default function DesktopNavbar() {
         {/* START */}
         <DockButton
           label="Start"
-          href="#"
-          icon={LayoutGrid}
+          imageSrc="/icons/start.png"
           active={startOpen}
           onClick={() => setStartOpen((v) => !v)}
         />
@@ -71,8 +57,7 @@ export default function DesktopNavbar() {
         {/* WINDOWS */}
         <DockButton
           label="About"
-          href="#"
-          icon={User}
+          imageSrc="/icons/about.png"
           opened={isOpened("about")}
           active={isActive("about")}
           onClick={() => openWindow("about")}
@@ -80,8 +65,7 @@ export default function DesktopNavbar() {
 
         <DockButton
           label="Skills"
-          href="#"
-          icon={Code}
+          imageSrc="/icons/skills.png"
           opened={isOpened("skills")}
           active={isActive("skills")}
           onClick={() => openWindow("skills")}
@@ -89,8 +73,7 @@ export default function DesktopNavbar() {
 
         <DockButton
           label="Projects"
-          href="#"
-          icon={Folder}
+          imageSrc="/icons/projects.png"
           opened={isOpened("projects")}
           active={isActive("projects")}
           onClick={() => openWindow("projects")}
@@ -98,8 +81,7 @@ export default function DesktopNavbar() {
 
         <DockButton
           label="Experience"
-          href="#"
-          icon={Briefcase}
+          imageSrc="/icons/experience.png"
           opened={isOpened("experience")}
           active={isActive("experience")}
           onClick={() => openWindow("experience")}
@@ -107,8 +89,7 @@ export default function DesktopNavbar() {
 
         <DockButton
           label="Contact"
-          href="#"
-          icon={Mail}
+          imageSrc="/icons/contact.png"
           opened={isOpened("contact")}
           active={isActive("contact")}
           onClick={() => openWindow("contact")}
